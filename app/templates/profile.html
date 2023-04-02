@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container-md">
+        <h2 class="display-4 text-center mt-3">Profile</h2>
+        <p class="text-center">Your account information is displayed below</p>
+
+        <form action="{{ url_for(request.endpoint) }}" method="post">
+            {{ profile_form.csrf_token(id='csrf_login') }}
+            <div>
+                {{ profile_form.email.label(class_='form-label') }}
+                {{ profile_form.email(class_='form-control bg-body-tertiary' + (' is-invalid' if profile_form.email.errors else ''), value_=session['email']) }}
+                {% for error in profile_form.email.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                {{ profile_form.username.label(class_='form-label') }}
+                {{ profile_form.username(class_='form-control bg-body-tertiary' + (' is-invalid' if profile_form.username.errors else ''), value_=session['username']) }}
+                {% for error in profile_form.username.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                {{ profile_form.password.label(class_='form-label') }}
+                {{ profile_form.password(class_='form-control bg-body-tertiary' + (' is-invalid' if profile_form.password.errors else ''), type_='password') }}
+                {% for error in profile_form.password.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mt-3 text-center">
+                {% if success %}
+                    <p class="text-success align-start">Account updated successfully</p>
+                {% endif %}
+                <input type="submit" class="btn btn-primary text-center px-5" value="Update Profile">
+            </div>
+        </form>
+
+
+    </div>
+
+{% endblock %}

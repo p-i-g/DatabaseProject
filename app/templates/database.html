@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-lg">
+    <form class="my-3" action="{{ url_for('database') }}" method="post">
+        <div class="row form-group align-items-center justify-content-center">
+            <label for="search" class="sr-only d-none">Search</label>
+            <div class="col-md-7">
+            <input type="text" class="form-control my-2 bg-body-tertiary col-auto" placeholder="Search" id="search" name="search">
+            </div>
+            <div class="col-md-4">
+                <label for="field" class="sr-only d-none"></label>
+                <select id="field" class="form-control bg-body-secondary" name="field">
+                    <option selected>Search In: Act Name</option>
+                    <option>Search In: Section Number</option>
+                    <option>Search In: Text</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="Search" class="btn-primary btn">
+            </div>
+        </div>
+    </form>
+    <table class="table my-2">
+        <thead>
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-11 col-md-7">Act</th>
+                <th scope="col" class="d-none d-md-table-cell col-md-5">Section Number</th>
+            </tr>
+        </thead>
+        {% for i in range(length) %}
+        <tr>
+            <th scope="row">{{ i }}</th>
+            <td>{{ sections[i].name }}</td>
+            <td>{{ sections[i].section_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+<div class="d-flex flex-row justify-content-end">
+    {{ pagination.links }}
+</div>
+</div>
+
+{% endblock %}
