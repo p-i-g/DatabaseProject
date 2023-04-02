@@ -1,104 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.css') }}">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/icon.svg') }}">
-    <title>Law Database</title>
-</head>
-<body data-bs-theme="dark">
-<div class="container-fluid border-bottom bg-body-secondary">
-    <div class="align-items-center justify-content-lg-start pt-2 pb-2 navbar navbar-dark navbar-expand-md flex-wrap">
-        <a href="{{ url_for('index') }}" class="d-flex align-items-center mb-0 text-decoration-none me-2 ms-2">
-            <img src="{{ url_for('static', filename='assets/icon.svg') }}" width="36" height="36" alt="icon">
-        </a>
-        <button class="navbar-toggler justify-content-end" type="button" data-bs-toggle="collapse"
-                data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% extends "base.html" %}
 
-        <div class="collapse navbar-collapse justify-content-end" id="main-nav">
-            <a href="{{ url_for('index') }}" class="nav-link pe-4 text-success-emphasis">Home</a>
-            <a href="{{ url_for('database') }}" class="nav-link pe-4">Database</a>
-            <a href="{{ url_for('feedback') }}" class="nav-link pe-3">Feedback</a>
-
-            <button type="button" class="btn btn-secondary me-2 ms-2 d-none d-md-inline" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">Login
-            </button>
-            <button type="button" class="btn btn-primary d-none d-md-inline" data-bs-toggle="modal" data-bs-target="#signupModal">Sign-up</button>
-
-
-            <a href="" data-bs-target="#loginModal" data-bs-toggle="modal" class="nav-link pe-5 d-md-none">Login</a>
-            <a href="" data-bs-toggle="modal" data-bs-target="#signupModal" class="nav-link pe-3 d-md-none">Sign-up</a>
-        </div>
-
-    </div>
-</div>
+{% block content %}
 
 <div class="container-fluid" style="background: url({{ url_for('static', filename='assets/gavel.jpg') }}) no-repeat center center; height: 100vh; background-size: cover">
-    <h2 class="display-2 pt-5 ps-5 text-warning">Welcome{{ name }}</h2>
+    <h2 class="display-2 pt-5 ps-5 text-warning">Welcome {{ session['username'] if 'username' in session }}</h2>
     <h4 class="display-4 ps-5 text-muted">Lorem ipsum dolor sit amet.</h4>
 </div>
 
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginTitle">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-signin">
-                    <label for="loginEmail" class="sr-only">Email address</label>
-                    <input type="email" id="loginEmail" class="form-control my-2 bg-body-tertiary"
-                           placeholder="Email address" required="" autofocus="">
-                    <label for="loginPassword" class="sr-only">Password</label>
-                    <input type="password" id="loginPassword" class="form-control my-2 bg-body-tertiary"
-                           placeholder="Password" required="">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="signupTitle">Sign-up</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-signin">
-                    <label for="signupEmail" class="sr-only">Email address</label>
-                    <input type="email" id="signupEmail" class="form-control my-2 bg-body-tertiary"
-                           placeholder="Email address" required="" autofocus="">
-                    <label for="signupPassword" class="sr-only">Password</label>
-                    <input type="password" id="signupPassword" class="form-control my-2 bg-body-tertiary"
-                           placeholder="Password" required="">
-                    <label for="signupRepeatPassword" class="sr-only">Repeat Password</label>
-                    <input type="password" id="signupRepeatPassword" class="form-control my-2 bg-body-tertiary"
-                           placeholder="Repeat Password" required="">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Sign-up</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.js') }}"></script>
-</body>
-</html>
+{% endblock %}
