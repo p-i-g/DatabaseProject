@@ -32,29 +32,11 @@
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="main-nav">
-            {% if page == 'index' %}
-                <a href="{{ url_for('index') }}" class="nav-link pe-4 text-success-emphasis">Home</a>
-                <a href="{{ url_for('database') }}" class="nav-link pe-4">Database</a>
-                {% if session['logged_in'] %}
-                <a href="{{ url_for('profile') }}" class="nav-link pe-3">Profile</a>
-                    {% endif %}
+            <a href="{{ url_for('index') }}"
+               class="nav-link pe-4 {{ 'text-success-emphasis' if page=='index' else '' }}">Home</a>
+            <a href="{{ url_for('database') }}"
+               class="nav-link pe-4 {{ 'text-success-emphasis' if page=='database' else '' }}">Database</a>
 
-            {% elif page == 'database' %}
-
-                <a href="{{ url_for('index') }}" class="nav-link pe-4">Home</a>
-                <a href="{{ url_for('database') }}" class="nav-link pe-4 text-success-emphasis">Database</a>
-                {% if session['logged_in'] %}
-                <a href="{{ url_for('profile') }}" class="nav-link pe-3">Profile</a>
-                    {% endif %}
-
-            {% elif page == 'profile' %}
-
-                <a href="{{ url_for('index') }}" class="nav-link pe-4">Home</a>
-                <a href="{{ url_for('database') }}" class="nav-link pe-4">Database</a>
-                {% if session['logged_in'] %}
-                <a href="{{ url_for('profile') }}" class="nav-link pe-3 text-success-emphasis">Profile</a>
-                    {% endif %}
-            {% endif %}
             {% if not session['logged_in'] %}
                 <button type="button" class="btn btn-secondary me-2 ms-2 d-none d-md-inline" data-bs-toggle="modal"
                         data-bs-target="#loginModal">Login

@@ -101,6 +101,19 @@ def database():
                            session=session, pagination=pagination, sections=sections.items, length=len(sections.items))
 
 
+@app.route('/search')
+def search():
+    if request.method == 'POST':
+        if 'Login' in request.form.values():
+            return login_helper('search.html', 'search')
+        elif 'Signup' in request.form.values():
+            return signup_helper('search.html', 'search')
+    login_form = LoginForm()
+    signup_form = SignupForm()
+    return render_template('search.html', login_form=login_form, signup_form=signup_form,
+                           page='search', session=session)
+
+
 @app.route('/logout')
 def logout():
     session.clear()
