@@ -101,20 +101,25 @@ def database():
                            session=session, pagination=pagination, sections=sections.items, length=len(sections.items))
 
 
-@app.route('/search')
-def search():
-    if request.method == 'POST':
-        if 'Login' in request.form.values():
-            return login_helper('search.html', 'search')
-        elif 'Signup' in request.form.values():
-            return signup_helper('search.html', 'search')
-    login_form = LoginForm()
-    signup_form = SignupForm()
-    return render_template('search.html', login_form=login_form, signup_form=signup_form,
-                           page='search', session=session)
-
-
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+
+@app.route('/database/section_content/<act_name>/<section_no>')
+def section_content(act_name, section_no):
+    res = models.Section.query.filter_by(name=act_name, section_id=section_no).first()
+
+    if request.method == 'POST':
+        if 'Login' in request.form.values():
+            return login_helper('section_content.html', 'section_content', section=res)
+        elif 'Signup' in request.form.values():
+            return signup_helper('section_content.html', 'section_content', section=res)
+    login_form = LoginForm()
+    signup_form = SignupForm()
+
+    print(request.path)
+
+    return render_template('section_content.html', login_form=login_form, signup_form=signup_form, page='index',
+                           session=session, section=res)
