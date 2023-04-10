@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+    <div class="d-flex justify-content-center">
+    <form action="{{ url_for('add_case') }}" method="post" class="my-3 col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 col-xl-4 col-xl-offset-4">
+        <label for="case_id">Case ID</label>
+        <input type="text" class="form-control" id="case_id" name="case_id">
+    </form>
+    </div>
+    </div>
+{% endblock %}

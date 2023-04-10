@@ -1,3 +1,5 @@
 # Project exclude paths
 /static/node_modules/
 /design/scraped_pages/
+/.idea/DatabaseProject.iml
+/.idea/misc.xml

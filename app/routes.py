@@ -121,5 +121,18 @@ def section_content(act_name, section_no):
 
     print(request.path)
 
-    return render_template('section_content.html', login_form=login_form, signup_form=signup_form, page='index',
+    return render_template('section_content.html', login_form=login_form, signup_form=signup_form,
                            session=session, section=res)
+
+
+@app.route('/add_case')
+def add_case():
+    if request.method == 'POST':
+        if 'Login' in request.form.values():
+            return login_helper('add_case.html', 'add_case')
+        elif 'Signup' in request.form.values():
+            return signup_helper('add_case.html', 'add_case')
+    login_form = LoginForm()
+    signup_form = SignupForm()
+
+    return render_template('add_case.html', login_form=login_form, signup_form=signup_form)
