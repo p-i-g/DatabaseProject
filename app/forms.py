@@ -92,5 +92,8 @@ def signup_helper(html, route, **kwargs):
                            signup_form=signup_form, modal='signupModal', page='route', **kwargs)
 
 
+# def get_choices()
+
+
 class AddCaseForm(FlaskForm):
     old_case = SelectField('old_case', )

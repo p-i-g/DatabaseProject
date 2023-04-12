@@ -11,6 +11,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'project'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost/project'
+app.config['SQLALCHEMY_ECHO'] = True
 
 app.secret_key = os.urandom(24)
 

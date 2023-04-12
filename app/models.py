@@ -26,6 +26,10 @@ class Court(db.Model):
 
     judges = db.relationship('Judge', secondary='current_judges')
 
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
+
 
 class Firm(db.Model):
     __tablename__ = 'firm'
@@ -38,6 +42,10 @@ class Firm(db.Model):
 
     lawyers = db.relationship('Lawyer', secondary='works_for')
 
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
+
 
 class Judge(db.Model):
     __tablename__ = 'judge'
@@ -45,6 +53,10 @@ class Judge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     position = db.Column(db.String(255))
+
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
 
 
 class Lawyer(db.Model):
@@ -55,6 +67,10 @@ class Lawyer(db.Model):
     phone = db.Column(db.String(15))
     email = db.Column(db.String(255))
 
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
+
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -63,6 +79,10 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
+
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.username.like(f'%{kw}%'))
 
 
 class Case(db.Model):
@@ -121,6 +141,10 @@ class Section(db.Model):
     text = db.Column(LONGTEXT)
 
     act = db.relationship('Act')
+
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%') | cls.text.like(f'%{kw}%'))
 
 
 t_works_for = db.Table(

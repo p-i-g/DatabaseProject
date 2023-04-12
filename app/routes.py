@@ -1,6 +1,7 @@
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
 from app.forms import *
 from app import app
+from fulltext_search import Match
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -67,15 +68,18 @@ def database():
         search = session['database']['search']
 
     if field == 'Search In: Act Name':
-        result = models.Section.query.filter(models.Section.name.like(f'%%{search}%%'))
+        result = models.Section.query.filter(Match(models.Section.name, search))
+        result = (db.session.query(models.Section)
+                  .filter(Match(models.Section.name, search) * 0.5 > 0)
+                  .order_by((Match(models.Section.name, search) * 0.5).desc()))
     elif field == 'Search In: Section Number':
-        result = models.Section.query.filter(models.Section.section_id.like(f'%%{search}%%'))
+        result = models.Section.query.filter(Match(models.Section.section_id, search))
     elif field == 'Search In: Text':
-        result = models.Section.query.filter(models.Section.text.like(f'%%{search}%%'))
+        result = models.Section.query.filter(Match(models.Section.text, search))
     else:
         result = models.Section.query
 
-    result = result.order_by(models.Section.name, models.Section.section_id)
+    # result = result.order_by(models.Section.name, models.Section.section_id)
 
     count = result.count()
     sections = result.paginate(page=page, per_page=per_page)
@@ -90,8 +94,6 @@ def database():
         elif 'Signup' in request.form.values():
             return signup_helper('database.html', 'database', pagination=pagination, sections=sections.items,
                                  length=len(sections.items))
-        elif 'search' in request.form:
-            print(request.form['search'], request.form['field'])
 
     login_form = LoginForm()
     signup_form = SignupForm()
