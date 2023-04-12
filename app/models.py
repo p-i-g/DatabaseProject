@@ -10,6 +10,10 @@ class Act(db.Model):
     title = db.Column(db.String(1023))
     commence_date = db.Column(db.Date)
 
+    @classmethod
+    def search(cls, kw):
+        return cls.query.filter_by(cls.name.like(f'%{kw}%') | cls.title.like(f'%{kw}%'))
+
 
 class Court(db.Model):
     __tablename__ = 'court'

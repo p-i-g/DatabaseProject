@@ -1,8 +1,6 @@
-import requests
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
 from app.forms import *
 from app import app
-from flask import g
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -118,8 +116,6 @@ def section_content(act_name, section_no):
             return signup_helper('section_content.html', 'section_content', section=res)
     login_form = LoginForm()
     signup_form = SignupForm()
-
-    print(request.path)
 
     return render_template('section_content.html', login_form=login_form, signup_form=signup_form,
                            session=session, section=res)

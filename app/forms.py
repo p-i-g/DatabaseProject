@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email
+from wtforms.widgets import Select
 from flask import redirect, url_for, render_template, request, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
-import MySQLdb.cursors
-from app import mysql, db
+from wtforms.fields import SelectField
+from app import db
 from app import models
 
 
@@ -89,3 +90,7 @@ def signup_helper(html, route, **kwargs):
 
     return render_template(html, login_form=login_form,
                            signup_form=signup_form, modal='signupModal', page='route', **kwargs)
+
+
+class AddCaseForm(FlaskForm):
+    old_case = SelectField('old_case', )
