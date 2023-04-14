@@ -1,7 +1,7 @@
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
 from app.forms import *
 from app import app
-from fulltext_search import Match
+from app.fulltext_search import Match
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -68,10 +68,7 @@ def database():
         search = session['database']['search']
 
     if field == 'Search In: Act Name':
-        result = models.Section.query.filter(Match(models.Section.name, search))
-        result = (db.session.query(models.Section)
-                  .filter(Match(models.Section.name, search) * 0.5 > 0)
-                  .order_by((Match(models.Section.name, search) * 0.5).desc()))
+        result = models.Section.search(search)
     elif field == 'Search In: Section Number':
         result = models.Section.query.filter(Match(models.Section.section_id, search))
     elif field == 'Search In: Text':

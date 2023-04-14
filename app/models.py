@@ -1,6 +1,8 @@
 from app import db
 from sqlalchemy.dialects.mysql import LONGTEXT
 
+from app.fulltext_search import Match
+
 
 class Act(db.Model):
     __tablename__ = 'act'
@@ -12,7 +14,11 @@ class Act(db.Model):
 
     @classmethod
     def search(cls, kw):
-        return cls.query.filter_by(cls.name.like(f'%{kw}%') | cls.title.like(f'%{kw}%'))
+        return cls.query.filter_by(
+            Match(cls.name, kw)
+        ).order_by(
+            Match(cls.name, kw).desc(),
+        )
 
 
 class Court(db.Model):
@@ -28,7 +34,12 @@ class Court(db.Model):
 
     @classmethod
     def search(cls, kw):
-        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
+        return cls.query.filter_by(
+            Match(cls.name, kw)
+        ).order_by(
+            Match(cls.name, kw),
+            cls.court_id
+        )
 
 
 class Firm(db.Model):
@@ -44,7 +55,12 @@ class Firm(db.Model):
 
     @classmethod
     def search(cls, kw):
-        return cls.query.filter_by(cls.name.like(f'%{kw}%'))
+        return cls.query.filter_by(
+            Match(cls.name, kw)
+        ).order_by(
+            Match(cls.name, kw),
+            cls.id
+        )
 
 
 class Judge(db.Model):
@@ -144,7 +160,18 @@ class Section(db.Model):
 
     @classmethod
     def search(cls, kw):
-        return cls.query.filter_by(cls.name.like(f'%{kw}%') | cls.text.like(f'%{kw}%'))
+        return (
+            cls.query
+
+            .filter(Match(cls.name, kw) * 10 +
+                    Match(cls.section_id, kw) * 1 +
+                    Match(cls.text, kw) * 0.5)
+
+            .order_by((Match(cls.name, kw) * 10 +
+                       Match(cls.section_id, kw) * 5 +
+                       Match(cls.text, kw) * 1).desc(),
+
+                      cls.name, cls.section_id))
 
 
 t_works_for = db.Table(
