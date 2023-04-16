@@ -3,45 +3,67 @@
 {% block content %}
 
     <div class="container-lg">
-        <form class="my-3" action="{{ url_for('database') }}" method="post">
+        <form action="{{ url_for('database') }}" class="my-3" method="post">
             <div class="row form-group align-items-center justify-content-center">
-                <label for="search" class="sr-only d-none">Search</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control my-2 bg-body-tertiary col-auto" placeholder="Search"
-                           id="search" name="search">
-                </div>
+                {{ database_form.csrf_token(id="csrf_token") }}
                 <div class="col-md-4">
-                    <label for="field" class="sr-only d-none"></label>
-                    <select id="field" class="form-control bg-body-secondary" name="field">
-                        <option selected>Search In: Act Name</option>
-                        <option>Search In: Section Number</option>
-                        <option>Search In: Text</option>
-                    </select>
+                    {{ database_form.search_in.label(class_='sr-only d-none') }}
+                    {{ database_form.search_in(class_='form-control bg-body-secondary') }}
+                </div>
+                <div class="col-md-7">
+                    {{ database_form.kw.label(class_='sr-only d-none') }}
+                    {{ database_form.kw(class_='form-control my-2 bg-body-tertiary col-auto', placeholder='Search') }}
                 </div>
                 <div class="col-md-1">
-                    <input type="submit" value="Search" class="btn-primary btn my-2">
+                    {{ database_form.submit.label(class_='sr-only d-none') }}
+                    {{ database_form.submit(class_='btn-primary btn my-2', value='Search') }}
                 </div>
             </div>
         </form>
-        <table class="table my-2 table-hover">
-            <thead>
-            <tr>
-                <th scope="col" class="col-12 col-md-7 col-lg-8">Act</th>
-                <th scope="col" class="d-none d-md-table-cell col-md-5 col-lg-2">Section Number</th>
-                <th class="d-none d-lg-table-cell col-lg-2">Last Amend Date</th>
-            </tr>
-            </thead>
-            {% for i in range(length) %}
-                <tr style="cursor:pointer" onclick="location.href='{{ url_for('section_content', act_name=sections[i].name, section_no=sections[i].section_id) }}'">
-                    <td class="col-12 col-md-7 col-lg-">{{ sections[i].name }}</td>
-                    <td class="d-none d-md-table-cell col-md-5 col-lg-2">{{ sections[i].section_id }}</td>
-                    <td class="d-none d-lg-table-cell col-lg-2">{{ sections[i].last_ammend_date }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+{#        <form class="my-3" action="{{ url_for('database') }}" method="post">#}
+{#            <div class="row form-group align-items-center justify-content-center">#}
+{#                <label for="search" class="sr-only d-none">Search</label>#}
+{#                <div class="col-md-7">#}
+{#                    <input type="text" class="form-control my-2 bg-body-tertiary col-auto" placeholder="Search"#}
+{#                           id="search" name="search">#}
+{#                </div>#}
+{#                <div class="col-md-4">#}
+{#                    <label for="field" class="sr-only d-none"></label>#}
+{#                    <select id="field" class="form-control bg-body-secondary" name="field">#}
+{#                        <option selected>Search In: Act Name</option>#}
+{#                        <option>Search In: Section Number</option>#}
+{#                        <option>Search In: Text</option>#}
+{#                    </select>#}
+{#                </div>#}
+{#                <div class="col-md-1">#}
+{#                    <input type="submit" value="Search" class="btn-primary btn my-2">#}
+{#                </div>#}
+{#            </div>#}
+{#        </form>#}
+
+    {{ table }}
+{#        <table class="table my-2 table-hover">#}
+        {#            <thead>#}
+        {#            <tr>#}
+        {#                <th scope="col" class="col-12 col-md-7 col-lg-8">Act</th>#}
+        {#                <th scope="col" class="d-none d-md-table-cell col-md-5 col-lg-2">Section Number</th>#}
+        {#                <th scope="col" class="d-none d-lg-table-cell col-lg-2">Last Amend Date</th>#}
+        {#            </tr>#}
+        {#            </thead>#}
+        {#            {% for i in range(length) %}#}
+        {#                <tr style="cursor:pointer" onclick="location.href='{{ url_for('section_content', act_name=sections[i].name, section_no=sections[i].section_id) }}'">#}
+        {#                    <td class="col-12 col-md-7 col-lg-8">{{ sections[i].name }}</td>#}
+        {#                    <td class="d-none d-md-table-cell col-md-5 col-lg-2">{{ sections[i].section_id }}</td>#}
+        {#                    <td class="d-none d-lg-table-cell col-lg-2">{{ sections[i].last_ammend_date }}</td>#}
+        {#                </tr>#}
+        {#            {% endfor %}#}
+        {#        </table>#}
         <div class="d-flex flex-row justify-content-end">
             {{ pagination.links }}
         </div>
+        {% if edit_url %}
+    <div class="d-flex flex-row justify-content-end"><a href="{{ url_for(edit_url) }}" class="btn btn-primary">Add New</a></div>
+    {% endif %}
     </div>
 
 {% endblock %}

@@ -10,17 +10,12 @@ class Match(ColumnElement):
             self.columns = columns
         except NotImplementedError:
             self.columns = [columns]
-        print(type(self.columns))
         self.value = text(value)
         self.mode = mode
 
 
 @compiles(Match)
 def _match(element, compiler, **kw):
-    print(f'''
-    MATCH ({''.join(compiler.process(c, **kw) for c in element.columns)})
-    AGAINST("{compiler.process(element.value)}")
-    ''')
     return f'''
     MATCH ({''.join(compiler.process(c, **kw) for c in element.columns)})
     AGAINST("{compiler.process(element.value)}")

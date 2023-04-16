@@ -1,7 +1,7 @@
-{% macro input(field, type) -%}
+{% macro input(field) -%}
     <div>
         {{ field.label(class_='form-label') }}
-        {{ field(class_='form-control bg-body-tertiary' + (' is-invalid' if field.errors else ''), type_=type) }}
+        {{ field(class_='form-control bg-body-tertiary' + (' is-invalid' if field.errors else '')) }}
         {% for error in field.errors %}
             <div class="invalid-feedback">
                 {{ error }}
@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap-select/dist/css/bootstrap-select.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/icon.svg') }}">
+    <style>btn-light{
+        color: gray;
+    }</style>
     {{ modals() }}
     <title>Law Database</title>
 </head>
@@ -43,6 +46,8 @@
                         data-bs-target="#loginModal">Login
                 </button>
             {% else %}
+                                <a href="{{ url_for('profile') }}"
+               class="nav-link pe-4 {{ 'text-success-emphasis' if page=='profile' else '' }}">Profile</a>
                 <a class="btn btn-secondary me-2 ms-2 d-none d-md-inline" href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
             <button type="button" class="btn btn-primary d-none d-md-inline" data-bs-toggle="modal"
@@ -75,7 +80,7 @@
                     {{ modal_messages() }}
                     {{ login_form.csrf_token(id='csrf_login') }}
                     {{ input(login_form.email) }}
-                    {{ input(login_form.password, 'password') }}
+                    {{ input(login_form.password) }}
                     {#                    <label for="loginEmail" class="sr-only">Email address</label>#}
                     {#                    <input type="email" id="loginEmail" class="form-control my-2 bg-body-tertiary"#}
                     {#                           placeholder="Email address" required autofocus="">#}
@@ -109,9 +114,9 @@
                 <div class="modal-body">
                     {{ modal_messages() }}
                     {{ signup_form.csrf_token(id='csrf_login') }}
-                    {{ input(signup_form.email, '') }}
-                    {{ input(signup_form.username, '') }}
-                    {{ input(signup_form.password, 'password') }}
+                    {{ input(signup_form.email) }}
+                    {{ input(signup_form.username) }}
+                    {{ input(signup_form.password) }}
                     {#                    <label for="signupEmail" class="sr-only">Email address</label>#}
                     {#                    <input type="email" id="signupEmail" class="form-control my-2 bg-body-tertiary"#}
                     {#                           placeholder="Email address" required autofocus="">#}
@@ -148,5 +153,6 @@
         signupModal.show();
     {% endif %}
 </script>
+{% block scripts %} {% endblock %}
 </body>
 </html>

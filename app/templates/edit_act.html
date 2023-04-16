@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+    <div class="d-flex justify-content-center">
+    <form action="{{ url_for('edit_act', act_name=act_name) }}" method="post" class="my-3 col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 col-xl-4 col-xl-offset-4">
+        {{ edit_act_form.csrf_token() }}
+        {{ input(edit_act_form.name) }}
+        {{ input(edit_act_form.last_ammend_date) }}
+        {{ input(edit_act_form.title) }}
+        {{ input(edit_act_form.commence_date) }}
+        <div class="d-flex justify-content-center mt-3">
+            {{ edit_act_form.submit(class_='btn btn-primary mx-3', value='Submit') }}
+            {% if edit_act_form.delete %}
+            {{ edit_act_form.delete(class_='btn btn-primary mx-3 px-3', value='Delete') }}
+            {% endif %}
+        </div>
+
+    </form>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+            <form action="{{ url_for('edit_section', act_name=act_name, section_id=section_id) }}" method="post"
+                  class="my-3 col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 col-xl-4 col-xl-offset-4">
+            {{ edit_section_form.csrf_token }}
+                {{ edit_section_form.name.label(class_="form-label") }}
+            <br>
+                {{ edit_section_form.name(id="select_act_name", class_="bg-gray") }}
+            {% for error in edit_section_form.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+        {% endfor %}
+            {{ input(edit_section_form.section_id) }}
+            {{ input(edit_section_form.last_ammend_date) }}
+            {{ input(edit_section_form.text) }}
+                <div class="d-flex justify-content-center mt-3">
+                    {{ edit_section_form.submit(class_='btn btn-primary mx-3', value='Submit') }}
+                    {% if edit_section_form.delete %}
+                    {{ edit_section_form.delete(class_='btn btn-primary mx-3 px-3', value='Delete') }}
+                    {% endif %}
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            $("#select_act_name").selectpicker();
+
+            function load_data(act_name) {
+                $.ajax({
+                    url: "/get_act_name",
+                    method: "POST",
+                    data: {act_name: act_name},
+                    dataType: "json",
+                    success: function (data) { //alert(category_id)
+                        var html = "";
+                        for (var count = 0; count < data.length; count++) {
+                            html += '<option value="' + data[count].act_name + '">' + data[count].act_name + "</option>";
+                        }
+                        $("#select_act_name").html(html)
+                        $("#select_act_name").selectpicker("refresh")
+                    },
+                });
+            }
+
+            $(document).on("change", "#select_act_name", function () {
+                var act_name = $("#select_act_name").val();
+                load_data(act_name);
+            });
+        });
+    </script>
+{% endblock %}

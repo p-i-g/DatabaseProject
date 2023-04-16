@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:adminadmin@localhost/project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost/law_database'
 app.config['SQLALCHEMY_ECHO'] = True
 
 app.secret_key = os.urandom(24)

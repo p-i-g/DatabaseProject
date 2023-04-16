@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container-lg justify-content-center">
+        <h1 class="text-center text-white font-weight-bold mt-3">{{ case.case_id }}</h1>
+        <p class="text-center">Decided on: {{ case.date }}</p>
+    <p class="text-center">Judges: {{ judges_list }}</p>
+    </div>
+
+    <div class="container-lg">
+        <h4 class="mb-3">References Sections</h4>
+        {{ sections_table }}
+
+        <h4 class="my-3">References Cases</h4>
+        {{ cases_table }}
+
+        <h4 class="my-3">Attorneys</h4>
+        {{ lawyers_table }}
+
+    <h4 class="my-3">Fields</h4>
+    {{ fields_list }}
+    </div>
+
+
+{% endblock %}
